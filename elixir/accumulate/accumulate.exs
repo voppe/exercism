@@ -18,6 +18,6 @@ defmodule Accumulate do
   @spec accumulate(list, (any -> any)) :: list
   def accumulate(list, fun) do
     list
-    |> Enum.map(fun)
+    |> Enum.map(fun) # Wew lad, this was hard
   end
 end

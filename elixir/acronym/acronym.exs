@@ -6,9 +6,9 @@ defmodule Acronym do
   @spec abbreviate(String.t()) :: String.t()
   def abbreviate(string) do
     string
-    |> String.split(~r/(?=[\s\p{Lu}])/) # Split on separators or uppercase letters, but keep the delimiter
+    |> String.split(~r/(?=[\s\p{Lu}])/) # Split on separators or uppercase letters (keep the delimiter(
     |> Enum.map(fn s -> s |> String.trim |> String.slice(0, 1) end) # Get the first letter
-    |> Enum.join("") 
-    |> String.upcase
+    |> Enum.join("") # Recreate the string
+    |> String.upcase # Uppercase everything
   end
 end

@@ -7,9 +7,9 @@ defmodule Words do
   @spec count(String.t) :: map
   def count(sentence) do
     sentence
-    |> String.split(~r/[\,_\s]/)
-    |> Enum.group_by(&(&1 |> String.downcase |> String.replace(~r/[^\w-]/u, "")), &(&1))
-    |> Enum.filter(fn {k, _} -> String.length(k) > 0 end)
-    |> Enum.reduce(%{}, fn {k, v}, acc -> Map.put(acc, k, Kernel.length(v)) end)
+    |> String.split(~r/[\,_\s]/) # Split the phrase into an array
+    |> Enum.group_by(&(&1 |> String.downcase |> String.replace(~r/[^\w-]/u, "")), &(&1)) # Group words into an array
+    |> Enum.filter(fn {word, _} -> String.length(word) > 0 end) # Remove the empty words that got caught in
+    |> Enum.reduce(%{}, fn {word, cnt}, acc -> Map.put(acc, word, length(cnt)) end) # Translate the array into a map
   end
 end

@@ -10,17 +10,17 @@ defmodule RunLengthEncoder do
   def encode(string) do
     string
     |>String.graphemes
-    |>Enum.chunk_by(&(&1)) # Groups equal graphemes in the same array
-    |>Enum.map(&("#{Kernel.length(&1)}#{List.first(&1)}")) # Translates the grouped arrays to the encoded token
-    |>Enum.join("")
+    |>Enum.chunk_by(&(&1)) # Group equal graphemes in the same array
+    |>Enum.map(&("#{Kernel.length(&1)}#{List.first(&1)}")) # Translate the grouped arrays to the encoded token
+    |>Enum.join("") # Create the string
   end
 
   @spec decode(String.t) :: String.t
   def decode(string) do
     string
-    |>String.split(~r/()((\d+)(\w))()/, on: [1, 6]) # Splits the string in an array of tokens
-    |>Enum.map(&(String.split_at(&1, -1))) # Splits the tokens into {N, Char}
-    |>Enum.map(fn {n, char} -> String.duplicate(char, String.to_integer(n)) end) # Expand the Chars 
-    |>Enum.join("") 
+    |>String.split(~r/()((\d+)(\w))()/, on: [1, 6]) # Split the string in an array of tokens (include separators)
+    |>Enum.map(&(String.split_at(&1, -1))) # Split the tokens into an {N, Char} tuple
+    |>Enum.map(fn {n, char} -> char |> String.duplicate(String.to_integer(n)) end) # Expand char
+    |>Enum.join("") # Create the string
   end
 end

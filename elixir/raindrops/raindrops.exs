@@ -17,17 +17,19 @@ defmodule Raindrops do
   @spec convert(pos_integer) :: String.t
   def convert(number) do
       sound = @sounds
-      |> Enum.reduce([], fn {k, v}, acc -> 
-        case rem(number, k) do 
-          0 -> List.insert_at(acc, -1, v)
-          _ -> acc
-        end
-      end)
-      |> Enum.join("")
+      |> Enum.reduce([], &(rain(number, &1, &2))) # Reduce the sound array to contain only the ones that contain number as a prime factor
+      |> Enum.join("") # Create the string
 
       case sound do
-        "" -> "#{number}"
-        _ -> sound
+        "" -> "#{number}" # If it's an empty string, pass the number's digits straight through
+        _ -> sound # Else we got a number
       end
+  end
+
+  defp rain(number, {factor, sound}, acc) do 
+    case rem(number, factor) do 
+      0 -> List.insert_at(acc, -1, sound) # Insert the sound at the end of the list
+      _ -> acc # Ignore the rain
+    end
   end
 end

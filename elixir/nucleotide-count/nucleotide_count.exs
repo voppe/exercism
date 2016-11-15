@@ -19,18 +19,15 @@ defmodule NucleotideCount do
 
   def parse([head | tail], nucleotide) do
     cnt = case head do
-      ^nucleotide -> 1
+      ^nucleotide -> 1 # Increase the count by one
       _ -> 0 
     end
     
-    case tail do
-      [] -> cnt
-      _ -> parse(tail, nucleotide) + cnt
-    end
+    parse(tail, nucleotide) + cnt
   end
 
   def parse([], _) do
-    0
+    0 # End reached
   end
 
   @doc """
@@ -44,7 +41,7 @@ defmodule NucleotideCount do
   @spec histogram([char]) :: map
   def histogram(strand) do
       @nucleotides
-      |> Enum.map(fn n -> {n, count(strand, n)} end)
+      |> Enum.map(&({&1, count(strand, &1)}))
       |> Map.new
   end
 end

@@ -20,7 +20,6 @@ defmodule Bob do
   end
 
   defp is_silent?(input) do
-    "" == input 
-    |> String.strip 
+    input |> String.strip == "" 
   end
 end

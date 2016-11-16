@@ -20,16 +20,18 @@ defmodule Raindrops do
       |> Enum.reduce([], &(rain(number, &1, &2))) # Reduce the sound array to contain only the ones that contain number as a prime factor
       |> Enum.join("") # Create the string
 
-      case sound do
-        "" -> "#{number}" # If it's an empty string, pass the number's digits straight through
-        _ -> sound # Else we got a number
+      if sound == "" do
+        "#{number}" # If it's an empty string, pass the number's digits straight through
+      else
+        sound # Else we got a number
       end
   end
 
   defp rain(number, {factor, sound}, acc) do 
-    case rem(number, factor) do 
-      0 -> List.insert_at(acc, -1, sound) # Insert the sound at the end of the list
-      _ -> acc # Ignore the rain
+    if rem(number, factor) == 0 do 
+      List.insert_at(acc, -1, sound) # Insert the sound at the end of the list
+    else 
+      acc # Ignore the rain
     end
   end
 end

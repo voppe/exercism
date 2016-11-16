@@ -18,10 +18,7 @@ defmodule NucleotideCount do
   end
 
   def parse([head | tail], nucleotide) do
-    cnt = case head do
-      ^nucleotide -> 1 # Increase the count by one
-      _ -> 0 
-    end
+    cnt = if head == nucleotide do 1 else 0 end
     
     parse(tail, nucleotide) + cnt
   end

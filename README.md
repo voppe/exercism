@@ -3,4 +3,4 @@ A repository containing all my [exercisms](http://exercism.io/voppe) to showcase
 
 All exercises pass all tests.
 
-Feel free to use this repository to cheat. But wouldn't that spoil the fun? It's your call.
+Feel free to use this repository to cheat, I'm not the internet police.

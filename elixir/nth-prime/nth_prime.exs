@@ -5,29 +5,27 @@ defmodule Prime do
   Generates the nth prime.
   """
   @spec nth(non_neg_integer) :: non_neg_integer
+  def nth(count) when count == 0 do raise ArgumentError end
   def nth(count) do
-    search(count, @first_prime+1, [@first_prime]) 
-  end
-
-  # Edge case
-  def search(count, _, primes) when length(primes) > count do raise ArgumentError end 
-  
-  # Number of primes found matching our list length means that the nth prime is at the end of our stack
-  def search(count, _, primes) when length(primes) === count do List.last(primes) end
-
-  def search(count, n, primes) do
-    new_primes = if is_prime?(n, primes) do 
-      List.insert_at(primes, -1, n) # If it's a prime, push it at the end of our list
-    else 
-      primes # Otherwise just use the previous found primes
-    end
-
-    search(count, n+1, new_primes) # Loop until finished
+    Stream.iterate(@first_prime+1, &(&1+2)) # Iterate over all odd numbers (skips calculation for even numbers since they're divisible by 2) 
+    |> Enum.reduce_while([@first_prime], fn n, primes ->
+      if length(primes) === count do  
+        {:halt, primes} # If the number of primes found equal the requested count it means we have fulfilled out task
+      else
+        {:cont, if prime?(n, primes) do 
+          List.insert_at(primes, -1, n) # If it's a prime, push it at the end of our list
+        else 
+          primes # Otherwise just use the previous found primes
+        end}
+      end
+    end)
+    |> List.last # Fetch the last found prime
   end
 
   # Tests current n against all provided primes
-  defp is_prime?(n, primes) do
-    primes
-    |> Enum.all?(&(rem(n, &1)!=0)) # If all previous primes do not have a remainder of 0 it means it's a prime
+  defp prime?(n, primes) do
+    # HORRIBLY naive approach: if for all previous primes "n" does not have a remainder of 0 it means it's a prime
+    # There's probably some mathematic black magic that I could use but whatever
+    Enum.all?(primes, &(rem(n, &1)!=0)) 
   end
 end
